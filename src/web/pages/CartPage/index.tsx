@@ -25,11 +25,6 @@ export const CartPage = () => {
 	const { screenWidth } = useWindowSize();
 	const isMobileViewPort = Number(screenWidth) < 768;
 
-	const { refetch } = useQuery({
-		queryKey: "products",
-		queryFn: fetchProducts,
-	});
-
 	const cartFormatted = cart.items.map(product => ({
 		...product,
 		priceFormatted: convertNumberToRealCurrency(product.price),
@@ -44,17 +39,14 @@ export const CartPage = () => {
 
 	const handleProductIncrement = (productId: number) => {
 		increment(productId);
-		refetch();
 	};
 
 	const handleProductDecrement = (productId: number) => {
 		decrement(productId);
-		refetch();
 	};
 
 	const handleRemoveProduct = (productId: number) => {
 		removeFromCart(productId);
-		refetch();
 	};
 
 	return (

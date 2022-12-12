@@ -1,7 +1,8 @@
 import React from "react";
+import { useQuery } from "react-query";
 
 import { CartContext } from "src/context/CartContext";
-import { marketApi } from "src/services/marketApi";
+import { fetchProduct, fetchProducts } from "src/services/marketApi/Methods";
 
 import type { CartProps } from "src/types/interfaces/cart";
 
@@ -11,6 +12,11 @@ interface CartContextProviderProps {
 
 export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 	const [cartState, setCartState] = React.useState<CartProps>({ items: [] });
+
+	const { refetch } = useQuery({
+		queryKey: "products",
+		queryFn: fetchProducts,
+	});
 
 	const addToCart = async (productId: number) => {
 		const updatedCart = cartState;
@@ -25,10 +31,10 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 		if (productExists) {
 			productExists.quantity = amount;
 		} else {
-			const product = await marketApi.get(`/products/${productId}`);
+			const product = await fetchProduct(productId);
 
 			const newProduct = {
-				...product.data,
+				...product,
 				quantity: amount,
 			};
 
@@ -36,6 +42,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 		}
 
 		setCartState(updatedCart);
+		refetch();
 	};
 
 	const removeFromCart = (productId: number) => {
@@ -48,6 +55,8 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 			updatedCart.items.splice(productIndex, 1);
 			setCartState(updatedCart);
 		}
+
+		refetch();
 	};
 
 	const increment = (productId: number) => {
@@ -59,6 +68,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 		updatedCart.items[productIndex].quantity++;
 
 		setCartState(updatedCart);
+		refetch();
 	};
 
 	const decrement = (productId: number) => {
@@ -76,6 +86,8 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
 			setCartState(updatedCart);
 		}
+
+		refetch();
 	};
 
 	const resetCart = () => {
@@ -84,6 +96,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 		updatedCart.items = [];
 
 		setCartState(updatedCart);
+		refetch();
 	};
 
 	return (
