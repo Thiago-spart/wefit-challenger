@@ -15,15 +15,13 @@ import * as S from "./styles";
 export const Home = () => {
 	const { addToCart, cart } = useCart();
 
-	const { isLoading, data, refetch } = useQuery({
+	const { isLoading, data } = useQuery({
 		queryKey: "products",
 		queryFn: fetchProducts,
 	});
 
 	const handleAddProduct = (productId: number) => {
 		addToCart(productId);
-
-		refetch();
 	};
 
 	const cartItemsAmount = cart.items.reduce((sumAmount, product) => {
