@@ -49,7 +49,6 @@ export default class MyDocument extends Document {
 					/>
 					<link rel="icon" href="/favicon.svg" sizes="any" />
 					<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-					<link rel="manifest" href="/manifest.webmanifest" />
 					<HeadContent />
 				</Head>
 				<body>
