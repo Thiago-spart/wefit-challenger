@@ -23,7 +23,6 @@ export const CartContainer = styled.div`
 	min-height: calc(100vh - 62px);
 	background-color: var(--white);
 	border-radius: 0.4rem;
-	padding: 1.6rem;
 
 	display: flex;
 	flex-direction: column;

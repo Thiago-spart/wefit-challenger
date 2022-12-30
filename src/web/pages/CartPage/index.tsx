@@ -2,10 +2,6 @@
 /* eslint-disable multiline-ternary */
 import Link from "next/link";
 
-import { useQuery } from "react-query";
-
-import { fetchProducts } from "src/services/marketApi/Methods";
-
 import { Button } from "@components/Button";
 
 import { useCart } from "src/hooks/useCart";
@@ -33,7 +29,7 @@ export const CartPage = () => {
 
 	const total = convertNumberToRealCurrency(
 		cart.items.reduce((sumTotal, product) => {
-			return sumTotal + product.price + product.quantity;
+			return sumTotal + product.price * product.quantity;
 		}, 0),
 	);
 
