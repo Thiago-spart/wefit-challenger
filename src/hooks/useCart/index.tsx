@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable nonblock-statement-body-position */
 import React from "react";
 import { useQuery } from "react-query";
 
@@ -6,12 +8,19 @@ import { fetchProduct, fetchProducts } from "src/services/marketApi/Methods";
 
 import type { CartProps } from "src/types/interfaces/cart";
 
+import { useLocalStorage } from "../useLocalStorage";
+
 interface CartContextProviderProps {
 	children: React.ReactNode;
 }
 
 export const CartContextProvider = ({ children }: CartContextProviderProps) => {
-	const [cartState, setCartState] = React.useState<CartProps>({ items: [] });
+	const [localStorageCart, setLocalStorageCart] = useLocalStorage<string>(
+		"@wemovies:cart",
+		"",
+	);
+
+	const [cart, setCart] = React.useState<CartProps>({ items: [] });
 
 	const { refetch } = useQuery({
 		queryKey: "products",
@@ -19,10 +28,8 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 	});
 
 	const addToCart = async (productId: number) => {
-		const updatedCart = cartState;
-		const productExists = cartState.items.find(
-			product => product.id === productId,
-		);
+		const updatedCart = cart;
+		const productExists = cart.items.find(product => product.id === productId);
 
 		const currentAmount = productExists ? productExists.quantity : 0;
 
@@ -41,38 +48,38 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 			updatedCart.items.push(newProduct);
 		}
 
-		setCartState(updatedCart);
+		setCart(updatedCart);
 		refetch();
 	};
 
 	const removeFromCart = (productId: number) => {
-		const updatedCart = cartState;
+		const updatedCart = cart;
 		const productIndex = updatedCart.items.findIndex(
 			product => product.id === productId,
 		);
 
 		if (productIndex >= 0) {
 			updatedCart.items.splice(productIndex, 1);
-			setCartState(updatedCart);
+			setCart(updatedCart);
 		}
 
 		refetch();
 	};
 
 	const increment = (productId: number) => {
-		const updatedCart = cartState;
+		const updatedCart = cart;
 		const productIndex = updatedCart.items.findIndex(
 			product => product.id === productId,
 		);
 
 		updatedCart.items[productIndex].quantity++;
 
-		setCartState(updatedCart);
+		setCart(updatedCart);
 		refetch();
 	};
 
 	const decrement = (productId: number) => {
-		const updatedCart = cartState;
+		const updatedCart = cart;
 		const productIndex = updatedCart.items.findIndex(
 			product => product.id === productId,
 		);
@@ -84,25 +91,35 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 		} else {
 			updatedCart.items[productIndex].quantity--;
 
-			setCartState(updatedCart);
+			setCart(updatedCart);
 		}
 
 		refetch();
 	};
 
 	const resetCart = () => {
-		const updatedCart = cartState;
+		const updatedCart = cart;
 
 		updatedCart.items = [];
 
-		setCartState(updatedCart);
+		setCart(updatedCart);
 		refetch();
 	};
+
+	React.useEffect(() => {
+		if (localStorageCart && localStorageCart !== "") {
+			setCart(JSON.parse(localStorageCart));
+		}
+	}, []);
+
+	React.useEffect(() => {
+		setLocalStorageCart(JSON.stringify(cart));
+	}, [cart, localStorageCart, setLocalStorageCart]);
 
 	return (
 		<CartContext.Provider
 			value={{
-				cart: cartState,
+				cart,
 				addToCart,
 				removeFromCart,
 				decrement,
