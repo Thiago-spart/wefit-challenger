@@ -1,14 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useCart } from "src/hooks/useCart";
+import type { HeaderProps } from "./types";
 
 import * as S from "./styles";
 
-export const Header = () => {
-	const { cart } = useCart();
-	const cartSize = cart.items.length;
-
+export const Header = ({ cartAmount }: HeaderProps) => {
 	return (
 		<S.Container>
 			<S.Logo href="/" aria-details="Logo">
@@ -20,7 +17,7 @@ export const Header = () => {
 					<div>
 						<h4>Meu Carrinho</h4>
 						<span aria-label="Items on your cart">
-							{cartSize === 1 ? `${cartSize} item` : `${cartSize} itens`}
+							{cartAmount === 1 ? `${cartAmount} item` : `${cartAmount} itens`}
 						</span>
 					</div>
 

@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button component should match snapshot 1`] = `
+<div>
+  <header
+    class="sc-bcXHqe lgugwa"
+  >
+    <a
+      aria-details="Logo"
+      class="sc-gswNZR kNnreG"
+      href="/"
+    >
+      WeMovies
+    </a>
+    <a
+      href="/cart"
+    >
+      <div
+        class="sc-dkrFOg eNiMdm"
+      >
+        <div>
+          <h4>
+            Meu Carrinho
+          </h4>
+          <span
+            aria-label="Items on your cart"
+          >
+            1 item
+          </span>
+        </div>
+        <img
+          alt="market cart"
+          data-nimg="1"
+          decoding="async"
+          height="32"
+          loading="lazy"
+          src="/cart.svg"
+          style="color: transparent;"
+          width="32"
+        />
+      </div>
+    </a>
+  </header>
+</div>
+`;
+
+exports[`Header component should match snapshot 1`] = `
+<div>
+  <header
+    class="sc-bcXHqe lgugwa"
+  >
+    <a
+      aria-details="Logo"
+      class="sc-gswNZR kNnreG"
+      href="/"
+    >
+      WeMovies
+    </a>
+    <a
+      href="/cart"
+    >
+      <div
+        class="sc-dkrFOg eNiMdm"
+      >
+        <div>
+          <h4>
+            Meu Carrinho
+          </h4>
+          <span
+            aria-label="Items on your cart"
+          >
+            1 item
+          </span>
+        </div>
+        <img
+          alt="market cart"
+          data-nimg="1"
+          decoding="async"
+          height="32"
+          loading="lazy"
+          src="/cart.svg"
+          style="color: transparent;"
+          width="32"
+        />
+      </div>
+    </a>
+  </header>
+</div>
+`;

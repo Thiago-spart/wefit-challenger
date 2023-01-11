@@ -3,6 +3,8 @@ import React from "react";
 
 import { Header } from "@components/Header";
 
+import { useCart } from "src/hooks/useCart";
+
 import * as S from "./styles";
 
 interface Props {
@@ -10,9 +12,11 @@ interface Props {
 }
 
 export const CartLayout: React.FC<Props> = ({ children }) => {
+	const { cart } = useCart();
+
 	return (
 		<S.Container>
-			<Header />
+			<Header cartAmount={cart.items.length} />
 
 			<S.PaddingContainer>
 				<S.CartContainer>{children}</S.CartContainer>
